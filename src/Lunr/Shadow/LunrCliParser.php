@@ -12,6 +12,8 @@
 
 namespace Lunr\Shadow;
 
+use UnexpectedValueException;
+
 /**
  * Getopt like command line argument parser. However, it
  * does a few things different from getopt. While getopt
@@ -94,7 +96,25 @@ class LunrCliParser implements CliParserInterface
      */
     public function parse(): array
     {
-        $this->args = $_SERVER['argv'];
+        if (!is_array($_SERVER['argv']))
+        {
+            throw new UnexpectedValueException('Command line arguments are not stored in an array!');
+        }
+
+        if (!array_is_list($_SERVER['argv']))
+        {
+            throw new UnexpectedValueException('Command line arguments are not stored as a list!');
+        }
+
+        foreach ($_SERVER['argv'] as $index => $arg)
+        {
+            if (!is_string($arg))
+            {
+                throw new UnexpectedValueException('Command line argument ' . $index . ' is not a string!');
+            }
+
+            $this->args[$index] = $arg;
+        }
 
         foreach ($this->args as $index => $arg)
         {

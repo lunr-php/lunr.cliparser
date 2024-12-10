@@ -10,6 +10,8 @@
 
 namespace Lunr\Shadow\Tests;
 
+use UnexpectedValueException;
+
 /**
  * This class contains test methods for parse() in the LunrCliParser class.
  *
@@ -17,6 +19,57 @@ namespace Lunr\Shadow\Tests;
  */
 class LunrCliParserParseTest extends LunrCliParserTest
 {
+
+    /**
+     * Test that parsing with an invalid argv throws an exception.
+     *
+     * @covers Lunr\Shadow\LunrCliParser::parse
+     */
+    public function testParseArgvWithArgvAsString(): void
+    {
+        $_SERVER['argv'] = 'script.php';
+
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('Command line arguments are not stored in an array!');
+
+        $value = $this->class->parse();
+
+        $this->assertArrayEmpty($value);
+    }
+
+    /**
+     * Test that parsing with an invalid argv throws an exception.
+     *
+     * @covers Lunr\Shadow\LunrCliParser::parse
+     */
+    public function testParseArgvWithArgvAsAssociativeArray(): void
+    {
+        $_SERVER['argv'] = [ 1 => 'script.php' ];
+
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('Command line arguments are not stored as a list!');
+
+        $value = $this->class->parse();
+
+        $this->assertArrayEmpty($value);
+    }
+
+    /**
+     * Test that parsing with an invalid argv throws an exception.
+     *
+     * @covers Lunr\Shadow\LunrCliParser::parse
+     */
+    public function testParseArgvWithArgvAsIntArray(): void
+    {
+        $_SERVER['argv'] = [ 1, 'script.php' ];
+
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('Command line argument 0 is not a string!');
+
+        $value = $this->class->parse();
+
+        $this->assertArrayEmpty($value);
+    }
 
     /**
      * Test that parsing no arguments returns an empty array.
