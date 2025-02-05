@@ -15,7 +15,7 @@ namespace Lunr\Shadow\Tests;
  *
  * @covers Lunr\Shadow\LunrCliParser
  */
-class LunrCliParserIsOptTest extends LunrCliParserTest
+class LunrCliParserIsOptTest extends LunrCliParserTestCase
 {
 
     /**
@@ -25,7 +25,7 @@ class LunrCliParserIsOptTest extends LunrCliParserTest
      */
     public function testIsOptPushesInitialArgumentIntoChecked(): void
     {
-        $method = $this->get_accessible_reflection_method('is_opt');
+        $method = $this->getReflectionMethod('is_opt');
 
         $method->invokeArgs($this->class, [ '1', 2 ]);
 
@@ -39,7 +39,7 @@ class LunrCliParserIsOptTest extends LunrCliParserTest
      */
     public function testIsOptPushesNonInitialArgumentAtTheEndOfChecked(): void
     {
-        $method = $this->get_accessible_reflection_method('is_opt');
+        $method = $this->getReflectionMethod('is_opt');
 
         $method->invokeArgs($this->class, [ '1', 2 ]);
         $method->invokeArgs($this->class, [ '2', 2 ]);
@@ -58,7 +58,7 @@ class LunrCliParserIsOptTest extends LunrCliParserTest
      */
     public function testIsOptReturnsFalseForInvalidParameter($param): void
     {
-        $method = $this->get_accessible_reflection_method('is_opt');
+        $method = $this->getReflectionMethod('is_opt');
 
         $this->expectUserWarning('Invalid parameter given: ' . $param);
 
@@ -78,13 +78,13 @@ class LunrCliParserIsOptTest extends LunrCliParserTest
      */
     public function testIsOptSetsErrorTrueForInvalidParameter($param): void
     {
-        $method = $this->get_accessible_reflection_method('is_opt');
+        $method = $this->getReflectionMethod('is_opt');
 
         $this->expectUserWarning('Invalid parameter given: ' . $param);
 
         $method->invokeArgs($this->class, [ $param, 1 ]);
 
-        $this->assertTrue($this->get_reflection_property_value('error'));
+        $this->assertTrue($this->getReflectionPropertyValue('error'));
     }
 
     /**
@@ -94,7 +94,7 @@ class LunrCliParserIsOptTest extends LunrCliParserTest
      */
     public function testIsOptWithSuperfluousToplevelArgument(): void
     {
-        $method = $this->get_accessible_reflection_method('is_opt');
+        $method = $this->getReflectionMethod('is_opt');
 
         $this->expectUserNotice('Superfluous argument: first');
 
@@ -111,7 +111,7 @@ class LunrCliParserIsOptTest extends LunrCliParserTest
      */
     public function testIsOptReturnsFalseForValidShortParameterWithoutArguments(): void
     {
-        $method = $this->get_accessible_reflection_method('is_opt');
+        $method = $this->getReflectionMethod('is_opt');
 
         $value = $method->invokeArgs($this->class, [ '-a', 1 ]);
 
@@ -126,7 +126,7 @@ class LunrCliParserIsOptTest extends LunrCliParserTest
      */
     public function testIsOptReturnsFalseForValidLongParameterWithoutArguments(): void
     {
-        $method = $this->get_accessible_reflection_method('is_opt');
+        $method = $this->getReflectionMethod('is_opt');
 
         $value = $method->invokeArgs($this->class, [ '--first', 1 ]);
 
@@ -141,9 +141,9 @@ class LunrCliParserIsOptTest extends LunrCliParserTest
      */
     public function testIsOptReturnsTrueForValidShortParameterWithArguments(): void
     {
-        $this->set_reflection_property_value('args', [ 'test.php', '-b', 'arg' ]);
+        $this->setReflectionPropertyValue('args', [ 'test.php', '-b', 'arg' ]);
 
-        $method = $this->get_accessible_reflection_method('is_opt');
+        $method = $this->getReflectionMethod('is_opt');
 
         $value = $method->invokeArgs($this->class, [ '-b', 1 ]);
 
@@ -158,9 +158,9 @@ class LunrCliParserIsOptTest extends LunrCliParserTest
      */
     public function testIsOptReturnsTrueForValidLongParameterWithArguments(): void
     {
-        $this->set_reflection_property_value('args', [ 'test.php', '--second', 'arg' ]);
+        $this->setReflectionPropertyValue('args', [ 'test.php', '--second', 'arg' ]);
 
-        $method = $this->get_accessible_reflection_method('is_opt');
+        $method = $this->getReflectionMethod('is_opt');
 
         $value = $method->invokeArgs($this->class, [ '--second', 1 ]);
 
@@ -174,7 +174,7 @@ class LunrCliParserIsOptTest extends LunrCliParserTest
      */
     public function testIsOptReturnsFalseForArgument(): void
     {
-        $method = $this->get_accessible_reflection_method('is_opt');
+        $method = $this->getReflectionMethod('is_opt');
 
         $value = $method->invokeArgs($this->class, [ 'arg', 2 ]);
 

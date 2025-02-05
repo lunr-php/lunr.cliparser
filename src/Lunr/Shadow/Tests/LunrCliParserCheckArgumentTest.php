@@ -15,7 +15,7 @@ namespace Lunr\Shadow\Tests;
  *
  * @covers Lunr\Shadow\LunrCliParser
  */
-class LunrCliParserCheckArgumentTest extends LunrCliParserTest
+class LunrCliParserCheckArgumentTest extends LunrCliParserTestCase
 {
 
     /**
@@ -25,7 +25,7 @@ class LunrCliParserCheckArgumentTest extends LunrCliParserTest
      */
     public function testCheckArgumentReturnsFalseForValidParameterWithoutArgs(): void
     {
-        $method = $this->get_accessible_reflection_method('check_argument');
+        $method = $this->getReflectionMethod('check_argument');
 
         $value = $method->invokeArgs($this->class, [ 'a', 1, 0, 'a' ]);
 
@@ -39,9 +39,9 @@ class LunrCliParserCheckArgumentTest extends LunrCliParserTest
      */
     public function testCheckArgumentReturnsTrueForSuperfluousArgument(): void
     {
-        $this->set_reflection_property_value('args', [ 'test.php', '-a', 'arg' ]);
+        $this->setReflectionPropertyValue('args', [ 'test.php', '-a', 'arg' ]);
 
-        $method = $this->get_accessible_reflection_method('check_argument');
+        $method = $this->getReflectionMethod('check_argument');
 
         $this->expectUserNotice('Superfluous argument: arg');
 

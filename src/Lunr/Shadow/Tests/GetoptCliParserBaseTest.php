@@ -15,7 +15,7 @@ namespace Lunr\Shadow\Tests;
  *
  * @covers Lunr\Shadow\GetoptCliParser
  */
-class GetoptCliParserBaseTest extends GetoptCliParserTest
+class GetoptCliParserBaseTest extends GetoptCliParserTestCase
 {
 
     /**
@@ -39,7 +39,7 @@ class GetoptCliParserBaseTest extends GetoptCliParserTest
      */
     public function testErrorIsFalseByDefault(): void
     {
-        $this->assertFalse($this->get_reflection_property_value('error'));
+        $this->assertFalse($this->getReflectionPropertyValue('error'));
     }
 
     /**

@@ -10,7 +10,7 @@
 
 namespace Lunr\Shadow\Tests;
 
-use Lunr\Halo\LunrBaseTest;
+use Lunr\Halo\LunrBaseTestCase;
 use Lunr\Shadow\LunrCliParser;
 
 /**
@@ -19,7 +19,7 @@ use Lunr\Shadow\LunrCliParser;
  *
  * @covers Lunr\Shadow\LunrCliParser
  */
-abstract class LunrCliParserTest extends LunrBaseTest
+abstract class LunrCliParserTestCase extends LunrBaseTestCase
 {
 
     /**

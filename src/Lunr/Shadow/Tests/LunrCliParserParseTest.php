@@ -17,7 +17,7 @@ use UnexpectedValueException;
  *
  * @covers Lunr\Shadow\LunrCliParser
  */
-class LunrCliParserParseTest extends LunrCliParserTest
+class LunrCliParserParseTest extends LunrCliParserTestCase
 {
 
     /**
@@ -103,7 +103,7 @@ class LunrCliParserParseTest extends LunrCliParserTest
         $value = $this->class->parse();
 
         $this->assertArrayEmpty($value);
-        $this->assertTrue($this->get_reflection_property_value('error'));
+        $this->assertTrue($this->getReflectionPropertyValue('error'));
     }
 
     /**
@@ -118,7 +118,7 @@ class LunrCliParserParseTest extends LunrCliParserTest
      */
     public function testParseValidShortParameters($shortopt, $params, $ast): void
     {
-        $this->set_reflection_property_value('short', $shortopt);
+        $this->setReflectionPropertyValue('short', $shortopt);
 
         $_SERVER['argv'] = $params;
 
@@ -139,7 +139,7 @@ class LunrCliParserParseTest extends LunrCliParserTest
      */
     public function testParseValidLongParameters($longopt, $params, $ast): void
     {
-        $this->set_reflection_property_value('long', $longopt);
+        $this->setReflectionPropertyValue('long', $longopt);
 
         $_SERVER['argv'] = $params;
 

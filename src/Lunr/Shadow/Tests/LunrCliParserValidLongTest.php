@@ -15,7 +15,7 @@ namespace Lunr\Shadow\Tests;
  *
  * @covers Lunr\Shadow\LunrCliParser
  */
-class LunrCliParserValidLongTest extends LunrCliParserTest
+class LunrCliParserValidLongTest extends LunrCliParserTestCase
 {
 
     /**
@@ -28,7 +28,7 @@ class LunrCliParserValidLongTest extends LunrCliParserTest
      */
     public function testIsValidLongReturnsFalseForInvalidParameter($param): void
     {
-        $method = $this->get_accessible_reflection_method('is_valid_long');
+        $method = $this->getReflectionMethod('is_valid_long');
 
         $this->expectUserWarning('Invalid parameter given: ' . $param);
 
@@ -47,13 +47,13 @@ class LunrCliParserValidLongTest extends LunrCliParserTest
      */
     public function testIsValidLongSetsErrorTrueForInvalidParameter($param): void
     {
-        $method = $this->get_accessible_reflection_method('is_valid_long');
+        $method = $this->getReflectionMethod('is_valid_long');
 
         $this->expectUserWarning('Invalid parameter given: ' . $param);
 
         $method->invokeArgs($this->class, [ $param, 1 ]);
 
-        $this->assertTrue($this->get_reflection_property_value('error'));
+        $this->assertTrue($this->getReflectionPropertyValue('error'));
     }
 
     /**
@@ -63,13 +63,13 @@ class LunrCliParserValidLongTest extends LunrCliParserTest
      */
     public function testIsValidLongAddsValidParameterToAst(): void
     {
-        $method = $this->get_accessible_reflection_method('is_valid_long');
+        $method = $this->getReflectionMethod('is_valid_long');
 
-        $this->set_reflection_property_value('long', [ 'first' ]);
+        $this->setReflectionPropertyValue('long', [ 'first' ]);
 
         $method->invokeArgs($this->class, [ 'first', 1 ]);
 
-        $value = $this->get_reflection_property_value('ast');
+        $value = $this->getReflectionPropertyValue('ast');
 
         $this->assertArrayHasKey('first', $value);
         $this->assertEquals($value['first'], []);
@@ -83,9 +83,9 @@ class LunrCliParserValidLongTest extends LunrCliParserTest
      */
     public function testIsValidLongReturnsFalseForValidParameterWithoutArguments(): void
     {
-        $method = $this->get_accessible_reflection_method('is_valid_long');
+        $method = $this->getReflectionMethod('is_valid_long');
 
-        $this->set_reflection_property_value('long', [ 'first' ]);
+        $this->setReflectionPropertyValue('long', [ 'first' ]);
 
         $value = $method->invokeArgs($this->class, [ 'first', 1 ]);
 
@@ -99,11 +99,11 @@ class LunrCliParserValidLongTest extends LunrCliParserTest
      */
     public function testIsValidLongReturnsTrueForValidParameterWithArguments(): void
     {
-        $method = $this->get_accessible_reflection_method('is_valid_long');
+        $method = $this->getReflectionMethod('is_valid_long');
 
-        $this->set_reflection_property_value('args', [ 'test.php', '--second', 'arg' ]);
+        $this->setReflectionPropertyValue('args', [ 'test.php', '--second', 'arg' ]);
 
-        $this->set_reflection_property_value('long', [ 'second:' ]);
+        $this->setReflectionPropertyValue('long', [ 'second:' ]);
 
         $value = $method->invokeArgs($this->class, [ 'second', 1 ]);
 

@@ -15,7 +15,7 @@ namespace Lunr\Shadow\Tests;
  *
  * @covers Lunr\Shadow\LunrCliParser
  */
-class LunrCliParserBaseTest extends LunrCliParserTest
+class LunrCliParserBaseTest extends LunrCliParserTestCase
 {
 
     /**
@@ -39,7 +39,7 @@ class LunrCliParserBaseTest extends LunrCliParserTest
      */
     public function testArgsIsEmptyArrayByDefault(): void
     {
-        $value = $this->get_reflection_property_value('args');
+        $value = $this->getReflectionPropertyValue('args');
 
         $this->assertArrayEmpty($value);
     }
@@ -49,7 +49,7 @@ class LunrCliParserBaseTest extends LunrCliParserTest
      */
     public function testCheckedIsEmptyArrayByDefault(): void
     {
-        $value = $this->get_reflection_property_value('checked');
+        $value = $this->getReflectionPropertyValue('checked');
 
         $this->assertArrayEmpty($value);
     }
@@ -59,7 +59,7 @@ class LunrCliParserBaseTest extends LunrCliParserTest
      */
     public function testASTisEmptyArrayByDefault(): void
     {
-        $value = $this->get_reflection_property_value('ast');
+        $value = $this->getReflectionPropertyValue('ast');
 
         $this->assertArrayEmpty($value);
     }
@@ -69,7 +69,7 @@ class LunrCliParserBaseTest extends LunrCliParserTest
      */
     public function testErrorIsFalseByDefault(): void
     {
-        $this->assertFalse($this->get_reflection_property_value('error'));
+        $this->assertFalse($this->getReflectionPropertyValue('error'));
     }
 
     /**
@@ -79,7 +79,7 @@ class LunrCliParserBaseTest extends LunrCliParserTest
      */
     public function testIsInvalidCommandLineReturnsError(): void
     {
-        $value = $this->get_reflection_property_value('error');
+        $value = $this->getReflectionPropertyValue('error');
 
         $this->assertEquals($value, $this->class->is_invalid_commandline());
     }

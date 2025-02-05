@@ -15,7 +15,7 @@ namespace Lunr\Shadow\Tests;
  *
  * @covers Lunr\Shadow\GetoptCliParser
  */
-class GetoptCliParserParseTest extends GetoptCliParserTest
+class GetoptCliParserParseTest extends GetoptCliParserTestCase
 {
 
     /**
@@ -25,7 +25,7 @@ class GetoptCliParserParseTest extends GetoptCliParserTest
      */
     public function testWrapArgumentReturnsEmptyArrayForFalse(): void
     {
-        $method = $this->get_accessible_reflection_method('wrap_argument');
+        $method = $this->getReflectionMethod('wrap_argument');
 
         $value = $method->invokeArgs($this->class, [ FALSE ]);
 
@@ -42,7 +42,7 @@ class GetoptCliParserParseTest extends GetoptCliParserTest
      */
     public function testWrapArgumentReturnsValueWrappedInArray($cli_value): void
     {
-        $method = $this->get_accessible_reflection_method('wrap_argument');
+        $method = $this->getReflectionMethod('wrap_argument');
 
         $value = $method->invokeArgs($this->class, [ $cli_value ]);
 
@@ -56,7 +56,7 @@ class GetoptCliParserParseTest extends GetoptCliParserTest
      */
     public function testWrapArgumentDoesNotRewrapArguments(): void
     {
-        $method = $this->get_accessible_reflection_method('wrap_argument');
+        $method = $this->getReflectionMethod('wrap_argument');
 
         $value = $method->invokeArgs($this->class, [ [ 'param1', 'param2' ] ]);
 
@@ -70,12 +70,12 @@ class GetoptCliParserParseTest extends GetoptCliParserTest
      */
     public function testParseReturnsEmptyArrayOnError(): void
     {
-        $this->mock_function('getopt', function () { return FALSE; });
+        $this->mockFunction('getopt', function () { return FALSE; });
 
         $value = $this->class->parse();
 
         $this->assertArrayEmpty($value);
-        $this->unmock_function('getopt');
+        $this->unmockFunction('getopt');
     }
 
     /**
@@ -85,12 +85,12 @@ class GetoptCliParserParseTest extends GetoptCliParserTest
      */
     public function testParseSetsErrorTrueOnError(): void
     {
-        $this->mock_function('getopt', function () { return FALSE; });
+        $this->mockFunction('getopt', function () { return FALSE; });
 
         $this->class->parse();
 
-        $this->assertTrue($this->get_reflection_property_value('error'));
-        $this->unmock_function('getopt');
+        $this->assertTrue($this->getReflectionPropertyValue('error'));
+        $this->unmockFunction('getopt');
     }
 
     /**
@@ -100,13 +100,13 @@ class GetoptCliParserParseTest extends GetoptCliParserTest
      */
     public function testParseReturnsAstOnSuccess(): void
     {
-        $this->mock_function('getopt', function () { return [ 'a' => FALSE, 'b' => 'arg' ]; });
+        $this->mockFunction('getopt', function () { return [ 'a' => FALSE, 'b' => 'arg' ]; });
 
         $value = $this->class->parse();
 
         $this->assertIsArray($value);
         $this->assertEquals([ 'a' => [], 'b' => [ 'arg' ] ], $value);
-        $this->unmock_function('getopt');
+        $this->unmockFunction('getopt');
     }
 
 }

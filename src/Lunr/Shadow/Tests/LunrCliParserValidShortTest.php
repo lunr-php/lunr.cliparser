@@ -15,7 +15,7 @@ namespace Lunr\Shadow\Tests;
  *
  * @covers Lunr\Shadow\LunrCliParser
  */
-class LunrCliParserValidShortTest extends LunrCliParserTest
+class LunrCliParserValidShortTest extends LunrCliParserTestCase
 {
 
     /**
@@ -28,7 +28,7 @@ class LunrCliParserValidShortTest extends LunrCliParserTest
      */
     public function testIsValidShortReturnsFalseForInvalidParameter($param): void
     {
-        $method = $this->get_accessible_reflection_method('is_valid_short');
+        $method = $this->getReflectionMethod('is_valid_short');
 
         $this->expectUserWarning('Invalid parameter given: ' . $param);
 
@@ -47,13 +47,13 @@ class LunrCliParserValidShortTest extends LunrCliParserTest
      */
     public function testIsValidShortSetsErrorTrueForInvalidParameter($param): void
     {
-        $method = $this->get_accessible_reflection_method('is_valid_short');
+        $method = $this->getReflectionMethod('is_valid_short');
 
         $this->expectUserWarning('Invalid parameter given: ' . $param);
 
         $method->invokeArgs($this->class, [ $param, 1 ]);
 
-        $this->assertTrue($this->get_reflection_property_value('error'));
+        $this->assertTrue($this->getReflectionPropertyValue('error'));
     }
 
     /**
@@ -63,13 +63,13 @@ class LunrCliParserValidShortTest extends LunrCliParserTest
      */
     public function testIsValidShortAddsValidParameterToAst(): void
     {
-        $method = $this->get_accessible_reflection_method('is_valid_short');
+        $method = $this->getReflectionMethod('is_valid_short');
 
-        $this->set_reflection_property_value('short', 'a');
+        $this->setReflectionPropertyValue('short', 'a');
 
         $method->invokeArgs($this->class, [ 'a', 1 ]);
 
-        $value = $this->get_reflection_property_value('ast');
+        $value = $this->getReflectionPropertyValue('ast');
 
         $this->assertArrayHasKey('a', $value);
         $this->assertEquals($value['a'], []);
@@ -83,9 +83,9 @@ class LunrCliParserValidShortTest extends LunrCliParserTest
      */
     public function testIsValidShortReturnsFalseForValidParameterWithoutArguments(): void
     {
-        $method = $this->get_accessible_reflection_method('is_valid_short');
+        $method = $this->getReflectionMethod('is_valid_short');
 
-        $this->set_reflection_property_value('short', 'a');
+        $this->setReflectionPropertyValue('short', 'a');
 
         $value = $method->invokeArgs($this->class, [ 'a', 1 ]);
 
@@ -99,11 +99,11 @@ class LunrCliParserValidShortTest extends LunrCliParserTest
      */
     public function testIsValidShortReturnsTrueForValidParameterWithArguments(): void
     {
-        $method = $this->get_accessible_reflection_method('is_valid_short');
+        $method = $this->getReflectionMethod('is_valid_short');
 
-        $this->set_reflection_property_value('args', [ 'test.php', '-b', 'arg' ]);
+        $this->setReflectionPropertyValue('args', [ 'test.php', '-b', 'arg' ]);
 
-        $this->set_reflection_property_value('short', 'b:');
+        $this->setReflectionPropertyValue('short', 'b:');
 
         $value = $method->invokeArgs($this->class, [ 'b', 1 ]);
 
