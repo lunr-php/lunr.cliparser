@@ -120,10 +120,12 @@ class LunrCliParser implements CliParserInterface
 
         foreach ($this->args as $index => $arg)
         {
-            if (!in_array($arg, $this->checked) && $index != 0)
+            if (in_array($arg, $this->checked) || $index == 0)
             {
-                $this->isOpt($arg, $index, TRUE);
+                continue;
             }
+
+            $this->isOpt($arg, $index, TRUE);
         }
 
         return $this->ast;
@@ -183,12 +185,11 @@ class LunrCliParser implements CliParserInterface
             {
                 return $this->isValidLong(substr($param, 1), $index);
             }
-            else
-            {
-                return $this->isValidLong($opt, $index);
-            }
+
+            return $this->isValidLong($opt, $index);
         }
-        elseif ($toplevel)
+
+        if ($toplevel)
         {
             trigger_error('Superfluous argument: ' . $opt, E_USER_NOTICE);
         }
@@ -235,18 +236,20 @@ class LunrCliParser implements CliParserInterface
 
         foreach ($this->long as $key => $arg)
         {
-            if ($opt == substr($arg, 0, strlen($opt)))
+            if ($opt != substr($arg, 0, strlen($opt)))
             {
-                if (strlen($arg) == strlen($opt))
-                {
-                    $match = TRUE;
-                    $args  = $key;
-                }
-                elseif ($arg[strlen($opt)] == ':' || $arg[strlen($opt)] == ';')
-                {
-                    $match = TRUE;
-                    $args  = $key;
-                }
+                continue;
+            }
+
+            if (strlen($arg) == strlen($opt))
+            {
+                $match = TRUE;
+                $args  = $key;
+            }
+            elseif ($arg[strlen($opt)] == ':' || $arg[strlen($opt)] == ';')
+            {
+                $match = TRUE;
+                $args  = $key;
             }
         }
 
@@ -301,12 +304,11 @@ class LunrCliParser implements CliParserInterface
                     {
                         return $this->checkArgument($opt, $next, $pos + 1, $a);
                     }
-                    else
-                    {
-                        return TRUE;
-                    }
+
+                    return TRUE;
                 }
-                elseif ($type == ':')
+
+                if ($type == ':')
                 {
                     trigger_error('Missing argument for -' . $opt, E_USER_WARNING);
                     $this->error = TRUE;
