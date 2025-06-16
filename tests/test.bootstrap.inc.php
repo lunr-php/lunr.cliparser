@@ -25,15 +25,15 @@ set_include_path(
 if (file_exists($base . '/vendor/autoload.php') == TRUE)
 {
     // Load composer autoloader.
-    $autoload_file = $base . '/vendor/autoload.php';
+    $autoloadFile = $base . '/vendor/autoload.php';
 }
 else
 {
     // Load decomposer autoloader.
-    $autoload_file = $base . '/decomposer.autoload.inc.php';
+    $autoloadFile = $base . '/decomposer.autoload.inc.php';
 }
 
-require_once $autoload_file;
+require_once $autoloadFile;
 
 define('REFLECTION_BUG_72194', (PHP_MAJOR_VERSION > 5));
 
